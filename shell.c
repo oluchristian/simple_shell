@@ -1,8 +1,7 @@
 #include "shell.h"
 
-
 /**
- * main - Entry point of the shell program
+ * main - Entry point of the shell progra
  *
  * Description: This function is the entry point of the shell program.
  * It reads user input and processes the commands either interactively
@@ -15,13 +14,10 @@
  */
 int main(int argc, char **argv)
 {
-	int fd, bytesRead, interactive = isatty(STDIN_FILENO);
-	size_t size = 0;
-	size_t size_prompt = 0;
-	char *prompt = NULL;
-	int status = 0;
+	int status = 0, interactive = isatty(STDIN_FILENO);
+	char  *prompt = "(s) ", **cmd = NULL, *bytesRead = NULL;
+	ssize_t w = 0;
 	FILE *stream;
-	info shell_info;
 
 	if (interactive && argc > 1)
 	{
@@ -40,19 +36,23 @@ int main(int argc, char **argv)
 	while (1)
 	{
 		if (interactive && argc == 1)
-			write(STDOUT_FILENO, "($) ", 4);
-		bytesRead = getline(&prompt, &size, stream);
+			w = write(STDOUT_FILENO, prompt, 4);
+		if (w == -1)
+			return (-1);
 
-		if (bytesRead < 0)
-		{
-			putchar('\n');
-			free(prompt);
-			if (stream != stdin)
-				fclose(stream);
-			prompt = NULL;
-			exit(EXIT_SUCCESS);
-		}
-		printf("%s", prompt);
+		/* Returns the char string read from stream*/
+		bytesRead = read_line();
+
+		/* returns an array of tokenized command string*/
+		cmd = tokenize(bytesRead);
+		if (cmd == NULL)
+			continue;
+
+		status = _execute(cmd, argv);
+
+		free(bytesRead);
+		bytesRead = NULL;
 	}
+	(void)(status);
 	return (0);
 }
