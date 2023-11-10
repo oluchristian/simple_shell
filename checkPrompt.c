@@ -3,29 +3,24 @@
 char *read_line(void)
 {
 	FILE *stream;
-	char *buffer = NULL, *line;
+	char *buffer = NULL;
 	size_t buff_size = 0;
 	ssize_t bytesRead;
-	int interactive = isatty(STDIN_FILENO);
 
 	stream = stdin;
 	bytesRead = getline(&buffer, &buff_size, stream);
 	if (bytesRead == -1)
 	{
-		if (interactive)
-			write(STDOUT_FILENO, "\n", 1);
-		free(buffer);
 		if (stream != stdin)
 			fclose(stream);
-		buffer = NULL;
-		exit(EXIT_SUCCESS);
-	}
-	if (buffer[bytesRead - 1] == '\n')
-		buffer[bytesRead - 1] = '\0';
 
-	line = _strdup(buffer);
-	free(buffer);
-	return (line);
+		free(buffer);
+		return (NULL);
+	}
+	/*if (buffer[bytesRead - 1] == '\n')
+		buffer[bytesRead - 1] = '\0';*/
+
+	return (buffer);
 }
 
  char **tokenize(char *bytesRead)
@@ -37,7 +32,8 @@ char *read_line(void)
 		return (NULL);
 	tmp = _strdup(bytesRead);
 	token = strtok(tmp, DELIM);
-	if (!token)
+
+	if (token == NULL)
 	{
 		free(bytesRead), tmp = NULL;
 		free(tmp), tmp = NULL;
@@ -49,6 +45,7 @@ char *read_line(void)
 		token = strtok(NULL, DELIM);
 	}
 	free(tmp), tmp = NULL;
+
 	cmd = malloc(sizeof(char *) * (token_count + 1));
 	if (!cmd)
 	{
@@ -62,44 +59,7 @@ char *read_line(void)
 		token = strtok(NULL, DELIM);
 		i++;
 	}
+	free(bytesRead), bytesRead = NULL;
 	cmd[i] = NULL;
 	return (cmd);
 }
-
-void freeArray(char **array)
-{
-	int i;
-
-	if (array == NULL)
-		return;
-	for (i = 0; array[i] != NULL; i++)
-	{
-		free(array[i]);
-		array[i] = NULL;
-	}
-	free(array);
-	array = NULL;
-}
-/* void removeComment(char *cmd) */
-/* {
-	* size_t len, i;
-
-	if (cmd != NULL)
-	{
-		len = _strlen(cmd);
-		cmd[len - 1] = '\0';
-
-		for (i = 0; cmd[i] != '\0'; i++)
-		{
-			if (cmd[i] == '#')
-			{
-				cmd[i] = '\0';
-				break;
-			}
-		}
-		return (len = _strlen(cmd));
-	}
-	else
-		perror("ERROR: CMD NULL");
-}
-*/

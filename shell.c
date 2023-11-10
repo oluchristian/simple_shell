@@ -14,7 +14,7 @@
  */
 int main(int argc, char **argv)
 {
-	int status = 0, interactive = isatty(STDIN_FILENO);
+	int status = 0, count = 0, interactive = isatty(STDIN_FILENO);
 	char  *prompt = "(s) ", **cmd = NULL, *bytesRead = NULL;
 	ssize_t w = 0;
 	FILE *stream;
@@ -30,29 +30,29 @@ int main(int argc, char **argv)
 		}
 	}
 	else
-	{
 		stream = stdin;
-	}
 	while (1)
 	{
 		if (interactive && argc == 1)
 			w = write(STDOUT_FILENO, prompt, 4);
 		if (w == -1)
-			return (-1);
-
+			return (1);
 		/* Returns the char string read from stream*/
 		bytesRead = read_line();
-
-		/* returns an array of tokenized command string*/
+		/* EOF Condition (Ctr + D)*/
+		if (bytesRead == NULL)
+		{
+			if (interactive)
+				write(STDOUT_FILENO, "\n", 1);
+			return (status);
+		}
+		count++;
+		if (bytesRead)
+			removeComment(bytesRead);
+		/* returns an array of tokenized command string */
 		cmd = tokenize(bytesRead);
 		if (cmd == NULL)
 			continue;
-
-		status = _execute(cmd, argv);
-
-		free(bytesRead);
-		bytesRead = NULL;
+		status = _execute(cmd, argv, count);
 	}
-	(void)(status);
-	return (0);
 }

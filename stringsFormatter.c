@@ -78,39 +78,6 @@ int _strcmp(char *s1, char *s2)
 	return (s1[i] - s2[i]);
 }
 
-
-
-/**
- * _atoi - Convert a string to an integer
- * @s: Pointer to the string to convert
- *
- * Description: This function converts a string to an integer.
- *
- * Return: The converted integer.
- */
-
-int _atoi(char *s)
-{
-	int sign = 1, i;
-	unsigned int res;
-
-	sign = 1, i = 0;
-	res = 0;
-	while (!(s[i] <= '9' && s[i] >= '0') && s[i] != '\0')
-	{
-		if (s[i] == '-')
-			sign *= -1;
-		i++;
-	}
-	while (s[i] <= '9' && (s[i] >= '0' && s[i] != '\0'))
-	{
-		res = (res * 10) + (s[i] - '0');
-		i++;
-	}
-	res *= sign;
-	return (res);
-}
-
 /**
  *_puts - prints an input string
  *@str: the string to be printed
@@ -147,21 +114,27 @@ int _putchar(char c)
  * variable, or NULL if not found.
  */
 
-char *_getenv(const char *path)
+char *_getenv(char *path)
 {
 	int i;
-	int len;
+	int is_path;
+	char *tmp, *key, *value, *env;
 
-	len = _strlen((char *)path);
+	/*len = _strlen((char *)path);*/
 	for (i = 0; environ[i] != NULL; i++)
 	{
-		if (!strncmp(path, environ[i], len))
+		tmp = _strdup(environ[i]);
+		key = strtok(tmp, "=");
+		is_path = _strcmp(key, path);
+		if (is_path == 0)
 		{
-			if (environ[i][len] == '=')
-			{
-				return (environ[i] + len + 1);
-			}
+			value = strtok(NULL, "\n");
+			env = _strdup(value);
+			free(tmp);
+			return (env);
 		}
+		free(tmp), tmp = NULL;
 	}
 	return (NULL);
 }
+

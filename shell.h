@@ -7,9 +7,12 @@
 #include <string.h>
 #include <fcntl.h>
 #include <sys/wait.h>
+#include <sys/types.h>
+#include <sys/stat.h>
 #include <unistd.h>
 
 #define BUFFER_SIZE 1024
+#define CMD_NOT_FOUND 127
 #define DELIM " \t\n"
 
 
@@ -18,16 +21,23 @@ extern char	**environ;
 void		startMyshell(void);
 char **tokenize(char *bytesRead);
 char *read_line(void);
-/*void removeComment(char *cmd);*/
-int _execute(char **cmd, char **argv);
+int _execute(char **cmd, char **argv, int count);
 void freeArray(char **array);
+void removeComment(char *cmd);
+char *get_path(char *command);
+void write_error(char *name, char *cmd, int count);
+void rev_string(char *str, int len);
+char *_itoa(int a);
+char *_strcpy(char *dest, char *src);
+char *_strcat(char *dest, char *src);
+void _puts(char *str);
 void		writeError(char *input);
 void		writeExitError(char *nomber);
 void		freeArgs(char **args);
 void		executeCommands(char **args, char **envp, int *stat);
 int			findFullPath(char *prompt, char **full_path);
 void		waitChildprocess(int *stat);
-char		*_getenv(const char *path);
+char		*_getenv(char *path);
 void		printEnviron(void);
 void		nonInteractMode(char *token, int *status);
 char		**funcTokenize(char *str, char *delim);
