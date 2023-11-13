@@ -31,6 +31,7 @@ int main(int argc, char **argv)
 	}
 	else
 		stream = stdin;
+
 	while (1)
 	{
 		if (interactive && argc == 1)
@@ -38,7 +39,7 @@ int main(int argc, char **argv)
 		if (w == -1)
 			return (1);
 		/* Returns the char string read from stream*/
-		bytesRead = read_line();
+		bytesRead = read_line(stream);
 		/* EOF Condition (Ctr + D)*/
 		if (bytesRead == NULL)
 		{
@@ -53,6 +54,9 @@ int main(int argc, char **argv)
 		cmd = tokenize(bytesRead);
 		if (cmd == NULL)
 			continue;
-		status = _execute(cmd, argv, count);
+		if (is_builtin(cmd[0]))
+			exec_builtin(cmd, argv, &status, count);
+		else
+			status = _execute(cmd, argv, count);
 	}
 }

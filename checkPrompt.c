@@ -1,13 +1,12 @@
 #include "shell.h"
 
-char *read_line(void)
+char *read_line(FILE *stream)
 {
-	FILE *stream;
+	
 	char *buffer = NULL;
 	size_t buff_size = 0;
 	ssize_t bytesRead;
 
-	stream = stdin;
 	bytesRead = getline(&buffer, &buff_size, stream);
 	if (bytesRead == -1)
 	{

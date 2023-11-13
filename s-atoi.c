@@ -28,7 +28,20 @@ int is_delim(char c, char *delim)
 			return (1);
 	return (0);
 }
+int is_positive(char *str)
+{
+	int i;
 
+	if (!str)
+		return (0);
+
+	for (i = 0; str[i]; i++)
+	{
+		if (str[i] < '0' || str[i] > '9')
+			return (0);
+	}
+	return (1);
+}
 /**
  * _isalpha - function that checks for an alphabet
  *
