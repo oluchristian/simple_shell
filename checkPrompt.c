@@ -1,5 +1,9 @@
 #include "shell.h"
-
+/**
+ * read_line - rread line
+ * @stream: stream
+ * Return: char
+ */
 char *read_line(FILE *stream)
 {
 
@@ -16,13 +20,19 @@ char *read_line(FILE *stream)
 		free(buffer);
 		return (NULL);
 	}
-	/*if (buffer[bytesRead - 1] == '\n')
-		buffer[bytesRead - 1] = '\0';*/
+	/*
+	 * if (buffer[bytesRead - 1] == '\n')
+	 * buffer[bytesRead - 1] = '\0';
+	 **/
 
 	return (buffer);
 }
-
- char **tokenize(char *bytesRead)
+/**
+ * tokenize - print env variables
+ * @bytesRead: char of bytes
+ * Return: token
+ */
+char **tokenize(char *bytesRead)
 {
 	char *token = NULL, **cmd = NULL, *tmp = NULL;
 	int i = 0, token_count = 0;
