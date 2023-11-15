@@ -1,5 +1,11 @@
 #include "shell.h"
-
+/**
+ * write_error - write errors
+ * @name: name
+ * @cmd: command
+ * @count: count
+ * Return: void
+ */
 void write_error(char *name, char *cmd, int count)
 {
 	char *index;
