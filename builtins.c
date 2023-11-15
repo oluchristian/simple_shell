@@ -3,13 +3,13 @@
  * shell_exit - execute builtin commands
  * @cmd: command
  * @argv: arguement
- * @status: status
+ * @shell: Shell structure
  * @count: count
  * Return: void
  */
-void shell_exit(char **cmd, char **argv, int *status, int count)
+void shell_exit(char **cmd, char **argv, Info shell, int count)
 {
-	int exit_val = (*status);
+	int exit_val = (shell.status);
 	char *index, err_msg[] = ": exit: Illegal number: ";
 
 	if (cmd[1])
@@ -27,7 +27,7 @@ void shell_exit(char **cmd, char **argv, int *status, int count)
 		write(STDERR_FILENO, "\n", 1);
 		free(index);
 		freeArray(cmd);
-		(*status) = 2;
+		(shell.status) = 2;
 		return;
 		}
 	}
@@ -37,13 +37,13 @@ void shell_exit(char **cmd, char **argv, int *status, int count)
 /**
  * print_env - print env variables
  * @cmd: command
- * @status: status
+ * @shell: Shell structure
  * Return: void
  */
-void print_env(char **cmd, int *status)
+void print_env(char **cmd, Info shell)
 {
 	int i;
-	(void) status;
+	(void) shell.status;
 
 	for (i = 0; environ[i]; i++)
 	{
@@ -51,19 +51,22 @@ void print_env(char **cmd, int *status)
 		write(STDOUT_FILENO, "\n", 1);
 	}
 	freeArray(cmd);
-	(*status) = 0;
+	(shell.status) = 0;
 }
 
 /**
- * cd_handler - This handles cd
- * @arguements: arguments passed to cd
+ * cd_handler - function handles cd
+ *
+ * @cmd: array of command tokens
+ * @status: shell status
+ *
  * Return: 0 on success, -1 on failure
  */
 int cd_handler(char **cmd, int *status)
 {
 	char *directory;
 	char cwd[PATH_MAX];
-    (void) status;
+	(void) status;
 
 	if (!cmd[1])
 	{
@@ -97,6 +100,6 @@ int cd_handler(char **cmd, int *status)
 		return (-1);
 	}
 	setenv("PWD", cwd, 1);
-    (*status) = 0;
+	(*status) = 0;
 	return (0);
 }

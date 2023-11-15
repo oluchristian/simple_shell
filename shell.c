@@ -18,16 +18,17 @@ int main(int argc, char **argv)
 	char  *prompt = "(s) ", **cmd = NULL, *bytesRead = NULL;
 	ssize_t w = 0;
 	FILE *stream = NULL;
+	Info shell;
 
-	/*?shell = get_info(argv[0], environ, &status, &count, interactive);*/
+	shell = get_info(&status, interactive, stream);
 	if (interactive && argc > 1)
 	{
-		stream = fopen(argv[1], "r");
-		if (!stream)
+		shell.stream = fopen(argv[1], "r");
+		if (!shell.stream)
 			exit(1);
 	}
 	else
-		stream = stdin;
+		shell.stream = stdin;
 	while (1)
 	{
 		if (interactive && argc == 1)
@@ -35,17 +36,12 @@ int main(int argc, char **argv)
 		if (w == -1)
 			return (1);
 		/* Returns the char string read from stream*/
-		bytesRead = read_line(stream);
+		bytesRead = read_line(shell);
 		/* EOF Condition (Ctr + D)*/
 		if (bytesRead == NULL)
-		{
-			if (interactive)
-				write(STDOUT_FILENO, "\n", 1);
-			return (status);
-		}
+			return (shell.status);
 		count++;
 		if (bytesRead)
-			/* cmdPreprocessor()*/
 			removeComment(bytesRead);
 		/* returns an array of tokenized command string */
 		cmd = tokenize(bytesRead);
@@ -53,7 +49,7 @@ int main(int argc, char **argv)
 		if (cmd == NULL)
 			continue;
 		if (is_builtin(cmd[0]))
-			exec_builtin(cmd, argv, &status, count);
+			exec_builtin(cmd, argv, shell, count);
 		else
 			status = _execute(cmd, argv, count);
 	}

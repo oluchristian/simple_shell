@@ -19,13 +19,16 @@
 
 extern char	**environ;
 
+/**
+* Struct Info - shell opeartional data
+* Description - shell operational data
+*/
 typedef struct
 {
-    char *name;
-    char **environ;
-    int status;
-    int count;
-    int interactive;
+int status;
+int interactive;
+FILE *stream;
+
 } Info;
 
 /************** StringsFormatter.c ******************/
@@ -36,12 +39,14 @@ int	_strlen(const char *str);
 int	_strcmp(char *s1, char *s2);
 
 /************** StringsFormatter-2.c ******************/
-int _putchar(char c);
-void _puts(char *str);
 char *_itoa(int a);
 int _atoi(char *str);
-int is_positive(char *str);
 void rev_string(char *str, int len);
+
+/************** StringsFormatter-3.c ******************/
+int _putchar(char c);
+void _puts(char *str);
+int is_positive(char *str);
 
 /************** remove_comment.c ******************/
 void removeComment(char *cmd);
@@ -56,21 +61,24 @@ int _execute(char **cmd, char **argv, int count);
 void write_error(char *name, char *cmd, int count);
 
 /**************** builtins.c *******************/
-void shell_exit(char **cmd, char **argv, int *status, int count);
-void print_env(char **cmd, int *status);
+void shell_exit(char **cmd, char **argv, Info shell, int count);
+void print_env(char **cmd, Info shell);
 int cd_handler(char **cmd, int *status);
 
 /**************** builtin_handler.c *******************/
 int is_builtin(char *cmd);
-void exec_builtin(char **cmd, char **argv, int *status, int count);
+void exec_builtin(char **cmd, char **argv, Info shell, int count);
 
 /**************** s-getpath.c *******************/
 char *get_path(char *command);
 char *_getenv(char *path);
+char *search_directories(char *path, char *command);
 
 /**************** checkPrompt.c *******************/
 char **tokenize(char *bytesRead);
-char *read_line(FILE *stream);
+char *read_line(Info);
 
-/*Info get_info(char *, char *, char **, int *, int *, int);*/
+/**************** get_info.c *******************/
+Info get_info(int *, int, FILE *);
+
 #endif

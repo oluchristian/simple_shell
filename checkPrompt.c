@@ -1,22 +1,25 @@
 #include "shell.h"
 /**
  * read_line - rread line
- * @stream: stream
- * Return: char
+ *
+ * @shell: shell Info
+ *
+ * Return: a buffer
  */
-char *read_line(FILE *stream)
+char *read_line(Info shell)
 {
 
 	char *buffer = NULL;
 	size_t buff_size = 0;
 	ssize_t bytesRead;
 
-	bytesRead = getline(&buffer, &buff_size, stream);
+	bytesRead = getline(&buffer, &buff_size, shell.stream);
 	if (bytesRead == -1)
 	{
-		if (stream != stdin)
-			fclose(stream);
-
+		if (shell.stream != stdin)
+			fclose(shell.stream);
+		if (shell.interactive)
+			write(STDOUT_FILENO, "\n", 1);
 		free(buffer);
 		return (NULL);
 	}

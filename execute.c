@@ -11,7 +11,7 @@ int _execute(char **cmd, char **argv, int count)
 	int status, exec_status;
 	pid_t pid;
 	char *file_path;
-	
+
 	file_path = get_path(cmd[0]);
 	if (!file_path)
 	{
@@ -23,7 +23,7 @@ int _execute(char **cmd, char **argv, int count)
 	if (pid == 0)
 	{
 		exec_status = execve(file_path, cmd, environ);
-		
+
 		if (exec_status == -1)
 		{
 			free(file_path), file_path = NULL;
@@ -40,4 +40,3 @@ int _execute(char **cmd, char **argv, int count)
 	/* returns with a WEXITSTATUS code */
 	return (WEXITSTATUS(status));
 }
-

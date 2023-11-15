@@ -1,5 +1,11 @@
 #include "shell.h"
 
+/**
+ * freeArray - function that frees an array
+ * @array: array to be freed
+ *
+ * Return: void
+ */
 void freeArray(char **array)
 {
 	int i;

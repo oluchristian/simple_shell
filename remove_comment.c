@@ -1,5 +1,12 @@
 #include "shell.h"
 
+/**
+ * removeComment - function checks if a comment is present in a command
+ * and removes it
+ * @cmd: Pointer to command string
+ *
+ * Return: void
+ */
 void removeComment(char *cmd)
 {
 	size_t len, i;

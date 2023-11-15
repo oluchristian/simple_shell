@@ -3,18 +3,18 @@
  * exec_builtin - execute builtin commands
  * @cmd: command
  * @argv: arguement
- * @status: status
+ * @shell: shell Info
  * @count: count
  * Return: void
  */
-void exec_builtin(char **cmd, char **argv, int *status, int count)
+void exec_builtin(char **cmd, char **argv, Info shell, int count)
 {
 	(void) argv;
 	(void) count;
 	if (_strcmp(cmd[0], "exit") == 0)
-		shell_exit(cmd, argv, status, count);
+		shell_exit(cmd, argv, shell, count);
 	else if (_strcmp(cmd[0], "env") == 0)
-		print_env(cmd, status);
+		print_env(cmd, shell);
 }
 
 /**
