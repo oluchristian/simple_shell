@@ -11,7 +11,7 @@ void removeComment(char *cmd)
 
 		for (i = 0; cmd[i] != '\0'; i++)
 		{
-			if (cmd[i] == '#' && cmd[i - 1] == ' ')
+			if (cmd[0] == '#' || (cmd[i] == '#' && cmd[i - 1] == ' '))
 			{
 				cmd[i] = '\0';
 				break;

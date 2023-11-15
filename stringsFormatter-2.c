@@ -1,18 +1,34 @@
 #include "shell.h"
 
 /**
- * interactive - function check that returns as true if it is in
- * interactive mode
+ *_puts - prints an input string
+ *@str: the string to be printed
  *
- * @list: address to the struct list
- *
- * Return: 1 if in interactive mode, 0 if not
- *
-int interactive(info_t *list)
+ * Return: Nothing
+ */
+void _puts(char *str)
 {
-	return (isatty(STDIN_FILENO) && list->readfd <= 2);
+	int i = 0;
+
+	if (!str)
+		return;
+	while (str[i] != '\0')
+	{
+		_putchar(str[i]);
+		i++;
+	}
 }
-*/
+/**
+ *_putchar - prints a character
+ *@c: the character to be printed
+ *
+ * Return: number of characters written
+ */
+int _putchar(char c)
+{
+	return (write(1, &c, 1));
+}
+
 /**
  * is_delim - function that checks if a character is a delimiter
  *
@@ -133,19 +149,4 @@ void rev_string(char *str, int len)
         str[j] = temp;
     }
 }
-void write_error(char *name, char *cmd, int count)
-{
-	char *index;
 
-	index = _itoa(count);
-
-	_puts(name);
-	_puts(": ");
-	_puts(index);
-	_puts(": ");
-	_puts(cmd);
-	_puts(": not found");
-	_putchar('\n');
-
-	free(index);
-}

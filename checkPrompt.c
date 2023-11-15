@@ -2,7 +2,7 @@
 
 char *read_line(FILE *stream)
 {
-	
+
 	char *buffer = NULL;
 	size_t buff_size = 0;
 	ssize_t bytesRead;
@@ -34,8 +34,7 @@ char *read_line(FILE *stream)
 
 	if (token == NULL)
 	{
-		free(bytesRead), tmp = NULL;
-		free(tmp), tmp = NULL;
+		free(tmp);
 		return (NULL);
 	}
 	while (token)
@@ -47,10 +46,7 @@ char *read_line(FILE *stream)
 
 	cmd = malloc(sizeof(char *) * (token_count + 1));
 	if (!cmd)
-	{
-		free(bytesRead), bytesRead = NULL;
 		return (NULL);
-	}
 	token = strtok(bytesRead, DELIM);
 	while (token)
 	{
@@ -58,7 +54,6 @@ char *read_line(FILE *stream)
 		token = strtok(NULL, DELIM);
 		i++;
 	}
-	free(bytesRead), bytesRead = NULL;
 	cmd[i] = NULL;
 	return (cmd);
 }

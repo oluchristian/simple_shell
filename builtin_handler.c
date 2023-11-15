@@ -8,7 +8,7 @@ void exec_builtin(char **cmd, char **argv, int *status, int count)
     if (_strcmp(cmd[0], "exit") == 0)
         shell_exit(cmd, argv, status, count);
     else if (_strcmp(cmd[0], "env") == 0)
-        get_env(cmd, status);
+        print_env(cmd, status);
 }
 
 int is_builtin(char *cmd)

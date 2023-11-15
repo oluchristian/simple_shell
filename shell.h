@@ -21,36 +21,54 @@ extern char	**environ;
 typedef struct
 {
     char *name;
-    char *file;
     char **environ;
-    int ret_val;
+    int status;
     int count;
-    int isatty;
+    int interactive;
 } Info;
 
-
-char **tokenize(char *bytesRead);
-char *read_line(FILE *stream);
-int _execute(char **cmd, char **argv, int count);
-void freeArray(char **array);
-void removeComment(char *cmd);
-char *get_path(char *command);
-void write_error(char *name, char *cmd, int count);
-void rev_string(char *str, int len);
-char *_itoa(int a);
-int _atoi(char *str);
+/************** StringsFormatter.c ******************/
 char *_strcpy(char *dest, char *src);
 char *_strcat(char *dest, char *src);
-void _puts(char *str);
-Info get_info(char *, char *, char **, int *, int *, int);
-void shell_exit(char **cmd, char **argv, int *status, int count);
-void get_env(char **cmd, int *status);
-void exec_builtin(char **cmd, char **argv, int *status, int count);
-int is_builtin(char *cmd);
-int is_positive(char *str);
-char		*_getenv(char *path);
-char		*_strdup(const char *src);
+char *_strdup(const char *src);
 int	_strlen(const char *str);
-int			_strcmp(char *s1, char *s2);
+int	_strcmp(char *s1, char *s2);
+
+/************** StringsFormatter-2.c ******************/
 int _putchar(char c);
+void _puts(char *str);
+char *_itoa(int a);
+int _atoi(char *str);
+int is_positive(char *str);
+void rev_string(char *str, int len);
+
+/************** remove_comment.c ******************/
+void removeComment(char *cmd);
+
+/**************** free_array.c *******************/
+void freeArray(char **array);
+
+/**************** execute.c *******************/
+int _execute(char **cmd, char **argv, int count);
+
+/**************** error_handler.c *******************/
+void write_error(char *name, char *cmd, int count);
+
+/**************** builtins.c *******************/
+void shell_exit(char **cmd, char **argv, int *status, int count);
+void print_env(char **cmd, int *status);
+
+/**************** builtin_handler.c *******************/
+int is_builtin(char *cmd);
+void exec_builtin(char **cmd, char **argv, int *status, int count);
+
+/**************** s-getpath.c *******************/
+char *get_path(char *command);
+char		*_getenv(char *path);
+
+/**************** checkPrompt.c *******************/
+char **tokenize(char *bytesRead);
+char *read_line(FILE *stream);
+
+/*Info get_info(char *, char *, char **, int *, int *, int);*/
 #endif

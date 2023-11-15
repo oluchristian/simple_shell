@@ -17,8 +17,10 @@ int main(int argc, char **argv)
 	int status = 0, count = 0, interactive = isatty(STDIN_FILENO);
 	char  *prompt = "(s) ", **cmd = NULL, *bytesRead = NULL;
 	ssize_t w = 0;
-	FILE *stream;
+	FILE *stream = NULL;
 
+
+	/*?shell = get_info(argv[0], environ, &status, &count, interactive);*/
 	if (interactive && argc > 1)
 	{
 		stream = fopen(argv[1], "r");
@@ -49,9 +51,11 @@ int main(int argc, char **argv)
 		}
 		count++;
 		if (bytesRead)
+			/* cmdPreprocessor()*/
 			removeComment(bytesRead);
 		/* returns an array of tokenized command string */
 		cmd = tokenize(bytesRead);
+		free(bytesRead), bytesRead = NULL;
 		if (cmd == NULL)
 			continue;
 		if (is_builtin(cmd[0]))

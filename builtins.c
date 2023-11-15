@@ -21,18 +21,18 @@ void shell_exit(char **cmd, char **argv, int *status, int count)
             free(index);
             freeArray(cmd);
             (*status) = 2;
-    
+
             return;
         }
     }
     freeArray(cmd);
     exit(exit_val);
 }
-void get_env(char **cmd, int *status)
+void print_env(char **cmd, int *status)
 {
     int i;
     (void) status;
-    
+
     for (i = 0; environ[i]; i++)
     {
         write(STDOUT_FILENO, environ[i], _strlen(environ[i]));

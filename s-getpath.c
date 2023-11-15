@@ -31,7 +31,7 @@ char *get_path(char *command)
 					_strcat(file_path, "/");
 					_strcat(file_path, command);
 					_strcat(file_path, "\0");
-					
+
 					if (stat(file_path, &buffer) == 0)
 					{
 						free(duplicate_path);
@@ -59,3 +59,39 @@ char *get_path(char *command)
 	return (NULL);
 }
 
+/* betty style header for _getenv function */
+
+/**
+ * _getenv - Get the value of an environment variable
+ * @path: Pointer to the environment variable name
+ *
+ * Description: This function retrieves.
+ * the value of an environment variable
+ *
+ * Return: A pointer to the value of the environment
+ * variable, or NULL if not found.
+ */
+
+char *_getenv(char *path)
+{
+	int i;
+	int is_path;
+	char *tmp, *key, *value, *env;
+
+	/*len = _strlen((char *)path);*/
+	for (i = 0; environ[i] != NULL; i++)
+	{
+		tmp = _strdup(environ[i]);
+		key = strtok(tmp, "=");
+		is_path = _strcmp(key, path);
+		if (is_path == 0)
+		{
+			value = strtok(NULL, "\n");
+			env = _strdup(value);
+			free(tmp);
+			return (env);
+		}
+		free(tmp), tmp = NULL;
+	}
+	return (NULL);
+}
