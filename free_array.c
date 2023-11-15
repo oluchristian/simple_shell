@@ -1,5 +1,9 @@
 #include "shell.h"
-
+/**
+ * freeArray - frees arrays
+ * @array: array
+ * Return: void
+ */
 void freeArray(char **array)
 {
 	int i;
@@ -14,3 +18,4 @@ void freeArray(char **array)
 	free(array);
 	array = NULL;
 }
+

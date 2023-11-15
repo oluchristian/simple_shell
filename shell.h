@@ -17,14 +17,13 @@
 
 
 extern char	**environ;
-
 typedef struct
 {
-    char *name;
-    char **environ;
-    int status;
-    int count;
-    int interactive;
+	char *name;
+	char **environ;
+	int status;
+	int count;
+	int interactive;
 } Info;
 
 /************** StringsFormatter.c ******************/

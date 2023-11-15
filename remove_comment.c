@@ -1,5 +1,9 @@
 #include "shell.h"
-
+/**
+ * removeComment - remove comments
+ * @cmd: status
+ * Return: void
+ */
 void removeComment(char *cmd)
 {
 	size_t len, i;
@@ -21,3 +25,4 @@ void removeComment(char *cmd)
 	else
 		perror("ERROR: CMD NULL");
 }
+
