@@ -41,3 +41,50 @@ void print_env(char **cmd, int *status)
     freeArray(cmd);
     (*status) = 0;
 }
+
+/**
+ * cd_handler - This handles cd
+ * @arguements: arguments passed to cd
+ * Return: 0 on success, -1 on failure
+ */
+int cd_handler(char **cmd, int *status)
+{
+	char *directory;
+	char cwd[PATH_MAX];
+    (void) status;
+
+	if (!cmd[1])
+	{
+		directory = _getenv("HOME");
+		if (!directory)
+			directory = "/";
+	}
+	else if (_strcmp(cmd[1], "-") == 0)
+	{
+		directory = _getenv("OLDPWD");
+		if (!directory)
+		{
+			write(STDERR_FILENO, "cd: OLDPWD not set\n", 18);
+			return (EXIT_FAILURE);
+		}
+	}
+	else
+		directory = cmd[1];
+
+	if (chdir(directory) == -1)
+	{
+		perror("cd");
+		return (-1);
+	}
+
+	setenv("OLDPWD", _getenv("PWD"), 1);
+
+	if (getcwd(cwd, sizeof(cwd)) == NULL)
+	{
+		perror("getcwd");
+		return (-1);
+	}
+	setenv("PWD", cwd, 1);
+    (*status) = 0;
+	return (0);
+}

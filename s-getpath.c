@@ -12,7 +12,6 @@ char *get_path(char *command)
 	struct stat buffer;
 
 	path = _getenv("PATH");
-
 	if (path)
 	{
 		duplicate_path = _strdup(path);

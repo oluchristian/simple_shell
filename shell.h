@@ -12,6 +12,7 @@
 #include <unistd.h>
 
 #define BUFFER_SIZE 1024
+#define PATH_MAX 4096
 #define CMD_NOT_FOUND 127
 #define DELIM " \t\n"
 
@@ -57,6 +58,7 @@ void write_error(char *name, char *cmd, int count);
 /**************** builtins.c *******************/
 void shell_exit(char **cmd, char **argv, int *status, int count);
 void print_env(char **cmd, int *status);
+int cd_handler(char **cmd, int *status);
 
 /**************** builtin_handler.c *******************/
 int is_builtin(char *cmd);
@@ -64,7 +66,7 @@ void exec_builtin(char **cmd, char **argv, int *status, int count);
 
 /**************** s-getpath.c *******************/
 char *get_path(char *command);
-char		*_getenv(char *path);
+char *_getenv(char *path);
 
 /**************** checkPrompt.c *******************/
 char **tokenize(char *bytesRead);

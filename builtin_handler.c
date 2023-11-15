@@ -4,11 +4,13 @@ void exec_builtin(char **cmd, char **argv, int *status, int count)
 {
     (void) argv;
     (void) count;
-    
+
     if (_strcmp(cmd[0], "exit") == 0)
         shell_exit(cmd, argv, status, count);
     else if (_strcmp(cmd[0], "env") == 0)
         print_env(cmd, status);
+    else if (_strcmp(cmd[0], "cd") == 0)
+
 }
 
 int is_builtin(char *cmd)

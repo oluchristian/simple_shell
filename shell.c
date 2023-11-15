@@ -19,21 +19,15 @@ int main(int argc, char **argv)
 	ssize_t w = 0;
 	FILE *stream = NULL;
 
-
 	/*?shell = get_info(argv[0], environ, &status, &count, interactive);*/
 	if (interactive && argc > 1)
 	{
 		stream = fopen(argv[1], "r");
-
 		if (!stream)
-		{
 			exit(1);
-			/*handle error here*/
-		}
 	}
 	else
 		stream = stdin;
-
 	while (1)
 	{
 		if (interactive && argc == 1)
